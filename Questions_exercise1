@@ -1,0 +1,14 @@
+1 ) Create 2 mount points 1 GB and 1.5 GB ,one with RW permissions and one with RO permissions & mounting persists after reboot
+2 ) Make two users one having shell with default shells as /bin/bash & other without any login shell
+3 ) Add 2 users to the user groups
+4 ) Change your used password expiry to 10 days  & min age as 3 and max age as 5. Hint : read chage command switches
+5 ) default starting UID should be more than 1500 ( to edit /etc/login.defs)
+6 ) password encryption from md5 instead of sha2
+7 ) Create an user , which should have a list of currently installed packages in the home directory ( Hint : use /etc/skull ) 
+8 ) Create two users, give one user complete sudo priviliges. Another user has sudo only on chage command ( Hint : visudo )
+9 ) Kill all running process of a specific user ( Hint : pkill )
+10 ) Use AT command to run "who" command at 10:30 pm
+11 ) one Job at every Monday 10 hoours 12 mins ( use cron )
+12 ) Create a job which run at every restart   ( Hint : read about @reboot parameter in cron )
+13 ) when system restart it should save list of all installed packages in a file /tmp/file.txt ( Hint : use /etc/rc.local & redirection operator )
+14 ) In a file, list lines from 3-8 ( Hint : Use head & tail )
