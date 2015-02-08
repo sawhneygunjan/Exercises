@@ -1,0 +1,174 @@
+Ans2:
+
+User 'gunjan1'  with shell /bin/bash
+
+root@ip-172-31-38-157:/home# useradd -s /bin/bash gunjan1
+root@ip-172-31-38-157:/home# cat /etc/passwd | grep "gunjan1"
+gunjan1:x:1005:1005::/home/gunjan1:/bin/bash
+root@ip-172-31-38-157:/home#
+
+User 'gunjan2'  without login shell 
+
+root@ip-172-31-38-157:/home# useradd -s /usr/sbin/nologin gunjan2
+root@ip-172-31-38-157:/home# su gunjan2
+This account is currently not available.
+root@ip-172-31-38-157:/home# cat /etc/passwd | grep "gunjan2"
+gunjan2:x:1006:1006::/home/gunjan2:/usr/sbin/nologin
+root@ip-172-31-38-157:/home# 
+
+
+Ans3:
+
+Two users 'temp1' and 'temp2' are added in the user group 'gunjan1'
+
+root@ip-172-31-38-157:/home# useradd -g gunjan1 temp1
+root@ip-172-31-38-157:/home# useradd -g gunjan1 temp2
+root@ip-172-31-38-157:/home# cat /etc/passwd | grep "gun"
+gunjan1:x:1005:1005::/home/gunjan1:/bin/bash
+gunjan2:x:1006:1006::/home/gunjan2:/usr/sbin/nologin
+root@ip-172-31-38-157:/home# cat /etc/passwd | grep "temp"
+temp1:x:1007:1005::/home/temp1:
+temp2:x:1008:1005::/home/temp2:
+root@ip-172-31-38-157:/home# 
+
+Ans4:
+
+Chage command is used with its switches to have password expiry set to 10 days and password min age as 3 and max age as 5 :-
+
+root@ip-172-31-38-157:/home# chage -m 3 -M 5 -E 10 temp1
+root@ip-172-31-38-157:/home# chage -l temp1
+Last password change					: Jan 31, 2015
+Password expires					: Feb 05, 2015
+Password inactive					: never
+Account expires						: Jan 11, 1970
+Minimum number of days between password change		: 3
+Maximum number of days between password change		: 5
+Number of days of warning before password expires	: 7
+root@ip-172-31-38-157:/home# 
+
+Ans5:
+
+For this, change is to be made in /etc/login.defs file where UID is changed from 1000 to 1501
+
+Result to verify 
+
+root@ip-172-31-38-157:/home# cat /etc/login.defs | grep "1000"
+UID_MIN			 1000
+GID_MIN			 1000
+# The values must be inside the 1000-999999999 range.
+root@ip-172-31-38-157:/home# vi /etc/login.defs
+root@ip-172-31-38-157:/home# cat /etc/login.defs | grep "1501"
+UID_MIN			 1501
+
+
+Ans6:
+
+For this also change is to be made in /etc/login.defs file where variable ENCRYPT_METHOD is changed to SHA256
+
+Following change is made in the file
+
+#
+# Note: It is recommended to use a value consistent with
+# the PAM modules configuration.
+#
+ENCRYPT_METHOD SHA256
+
+#
+
+
+Ans7:
+
+Added "dpkg -l >> ~/listofpackgs" command in the .bashrc file in /etc/skel directory so whenever now new user will be added , list of packages will be created in the home directory.
+
+File content:- 
+
+root@ip-172-31-38-157:/home/ubuntu7# tail -3 /etc/skel/.bashrc
+fi
+
+dpkg -l >>~/listofpkgs
+root@ip-172-31-38-157:/home/ubuntu7# 
+
+
+Ans8:
+
+To implement this,  we first need to run visudo command to open /etc/sudoers file. In this file we need to perform changes in user_priviledge section as :
+
+gunjan1 ALL=(ALL) NOPASSWD:ALL
+temp1 ALL=(ALL) NOPASSWD:/usr/bin/chage
+
+Here user gunjan1 has all sudo priviledges and temp1 user has sudo only on chage command
+
+
+Ans9: 
+
+The follwing command can be used to kill all the processes of a user named such as gunjan
+
+sudo pkill -u gunjan
+
+
+
+Ans 10:
+
+at command to run who at 10:30 would be :-
+
+at 22:30 date
+who >> output.txt
+
+Following instance is to demonstrate the working of "at" to run who command at 5:50 on date Feb 1:-
+
+ubuntu@ip-172-31-38-157:~$ date
+Sun Feb  1 05:49:24 UTC 2015
+ubuntu@ip-172-31-38-157:~$ at 5:50 Feb 1
+warning: commands will be executed using /bin/sh
+at> who >>abc.txt
+at> <EOT>
+job 18 at Sun Feb  1 05:50:00 2015
+ubuntu@ip-172-31-38-157:~$ cat abc.txt
+cat: abc.txt: No such file or directory
+ubuntu@ip-172-31-38-157:~$ cat abc.txt
+ubuntu   pts/0        2015-02-01 05:07 (122.162.200.196)
+ubuntu@ip-172-31-38-157:~$ 
+
+
+Ans 11:
+
+Login as root user and use crontab -e to edit crontab entries with following command
+
+12 10 * * 1 /bin/date >> output.txt
+
+(instead of /bin/date any command can be used for execution)
+
+
+Ans 12:
+
+Login as root user and use crontab -e to edit crontab entries with following command
+
+@reboot /bin/date
+
+
+Ans 13:
+
+For this, changes is to be made in /etc/rc.local file . Following command is added in the file :-
+
+/usr/bin/dpkg -l >> /tmp/file.txt
+
+
+Resulting File's content to veirfy:-
+
+root@ip-172-31-38-157:~# tail -5 /etc/rc.local
+# By default this script does nothing.
+
+/usr/bin/dpkg -l >> /tmp/file.txt
+
+exit 0
+root@ip-172-31-38-157:~# 
+
+
+Ans 14:
+
+Command to list lines from 3-8:-
+
+head -8 /etc/passwd | tail -6
+
+
+
