@@ -1,0 +1,164 @@
+Q1: Initialize a Git Repository 
+
+command: git init
+
+Result:
+nehu@nehu-emachines-D725:~/git_exercise$ git init
+Initialized empty Git repository in /home/nehu/git_exercise/.git/
+nehu@nehu-emachines-D725:~/git_exercise$ 
+
+
+
+Q2: Add files to the repository
+
+command: git add <filename>
+
+Result:
+nehu@nehu-emachines-D725:~/git_exercise$ vi test_file
+nehu@nehu-emachines-D725:~/git_exercise$ git add test_file
+nehu@nehu-emachines-D725:~/git_exercise$ git status
+On branch master
+
+Initial commit
+
+Changes to be committed:
+  (use "git rm --cached <file>..." to unstage)
+
+	new file:   test_file
+
+nehu@nehu-emachines-D725:~/git_exercise$ 
+
+
+
+Q3: Unstage 1 file
+
+command: git reset HEAD <filename>
+
+Result:  
+nehu@nehu-emachines-D725:~/git_exercise$ git reset HEAD test_file
+Unstaged changes after reset:
+M	test_file
+ 
+
+
+Q4: Commit the files 
+
+command: git commit -m "message of commit" <filename>
+
+Result:
+nehu@nehu-emachines-D725:~/git_exercise$ git commit -m "first commit" test_file
+[master (root-commit) 6c8fa09] first commit
+ 1 file changed, 2 insertions(+)
+ create mode 100644 test_file
+nehu@nehu-emachines-D725:~/git_exercise$ 
+
+
+
+Q5: Add a remote
+
+command: git remote add  origin <url>
+
+Result:
+nehu@nehu-emachines-D725:~/git_exercise$ git remote add  origin https://github.com./gunjansawhney/test-repo.git
+nehu@nehu-emachines-D725:~/git_exercise$ git remote -v
+origin	https://github.com./gunjansawhney/test-repo.git (fetch)
+origin	https://github.com./gunjansawhney/test-repo.git (push)
+
+
+
+Q6: Undo changes to a particular file 
+
+command: git checkout <filename> // incase file is not added
+	 git revert --hard 	// incase file is committed
+
+
+
+Q7: Push changes to Github
+
+command: git push <remote_name> <branch_name>
+
+
+
+Q8: Clone the repository 
+
+command: git clone <URL> <local_directory>
+
+ 
+Q11: Check differences between a file and its staged version 
+
+command: git diff sha1 sha2
+
+Result:
+nehu@nehu-emachines-D725:~/git_exercise$ git diff 6c8fa091a1a88043819647ca7982b4f65501a7e5 53e503c8e2f686327dc8a0a8b08e941d9607233c
+diff --git a/test_file b/test_file
+index e22071c..d0161b0 100644
+--- a/test_file
++++ b/test_file
+@@ -1,2 +1,6 @@
+ this is a test file
+ //my first commit
++//my second change
+
+
+Q12: Ignore a few files to be checked in
+
+command: >vi .gitignore
+	add filenames in this .gitignore file
+	 >git .gitignore
+
+
+ 
+Q13: Ignore already committed files
+ 
+command: git --cached /path_of_file
+
+
+Q14: Create a new branch. Diverge them with commits 
+
+command: 
+	 >git checkout -b newbranch   //making new branch
+	 >git checkout master	      //switching to master
+	 >echo "creating a new file in master" > test.txt //adding new file to master
+	 >git add test.txt
+	 >git commit -m "added two files" test.txt
+	 >git checkout newbranch
+		
+newbranch would be different from masterbranch now.
+
+
+
+Q15: Creating tags, pushing them and checking out
+
+command: >git commit -m "commit_message" file_name
+	 >git tag "v1.0"
+	 >git push <remote_name> <branch_name>
+
+
+
+Q16: Edit the same file at the same line on both branches and commit
+
+command:>git checkout -b fix_readme
+	> vi README //edit the line
+	>git commit -am "fixed readme"
+
+	>git checkout master
+	>vi README //edit the same line 
+	>git commit -am "fixed readme differently"
+
+	Both will commit.  
+
+
+
+Q17: Try merging and resolve merge conflicts 
+
+Ans: 
+Say we edit same block of code in same file in two branches as shown above. When we will try to merge them, like "fix_readme" in "master" branch then a merge  conflict will occur. Using cat we will be able to see the difference and we will be able to modify the file manually. 
+
+
+Q18: Stash the changes and pop them
+
+
+command: >git stash 
+	 >git stash list 	
+	 >git stash apply  stash@{0}
+	 >git stash pop
